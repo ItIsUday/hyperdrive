@@ -1,5 +1,6 @@
 package com.hyperdrive;
 
+import com.hyperdrive.utils.Constants;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,9 +21,8 @@ public class MainApp extends Application {
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
-        stage.setTitle("JavaFX and Gradle");
+        stage.setTitle(Constants.APP_TITLE);
         stage.setScene(scene);
         stage.show();
     }
-
 }
