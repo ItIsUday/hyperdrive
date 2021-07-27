@@ -6,6 +6,7 @@ import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.FileContent;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -16,10 +17,8 @@ import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import com.hyperdrive.utils.Constants;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.net.URLConnection;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
@@ -32,7 +31,7 @@ public class DriveController {
      * Global instance of the scopes required by this quickstart.
      * If modifying these scopes, delete your previously saved tokens/ folder.
      */
-    private static final List<String> SCOPES = Collections.singletonList(DriveScopes.DRIVE_READONLY);
+    private static final List<String> SCOPES = Collections.singletonList(DriveScopes.DRIVE);
     private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
 
     /**
@@ -58,6 +57,31 @@ public class DriveController {
                 .build();
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+    }
+
+    public static void downloadFile(String fileID, String filePath) throws IOException, GeneralSecurityException {
+        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        Drive service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+                .setApplicationName(Constants.APPLICATION_NAME)
+                .build();
+
+        FileOutputStream outputStream = new FileOutputStream(filePath);
+        service.files().get(fileID).executeMediaAndDownloadTo(outputStream);
+    }
+
+    public static void uploadFile(java.io.File f) throws IOException, GeneralSecurityException {
+        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        Drive service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+                .setApplicationName(Constants.APPLICATION_NAME)
+                .build();
+
+        File body = new File();
+        body.setName(f.getName());
+        body.setMimeType(URLConnection.guessContentTypeFromName(f.getName()));
+
+        FileContent mediaContent = new FileContent(URLConnection.guessContentTypeFromName(f.getName()), f);
+        File file = service.files().create(body, mediaContent).execute();
+        System.out.println("File ID: " + file.getId());
     }
 
     public static void main(String... args) throws IOException, GeneralSecurityException {
