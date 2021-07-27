@@ -137,20 +137,15 @@
                   </Separator>
                   <Pane prefHeight="297.0" prefWidth="250.0">
                      <children>
-                        <Button layoutX="75.0" layoutY="42.0" mnemonicParsing="false" text="Button" />
-                        <Button layoutX="75.0" layoutY="81.0" mnemonicParsing="false" text="Button" />
-                        <Button layoutX="77.0" layoutY="193.0" mnemonicParsing="false" text="Button" />
-                        <Button layoutX="77.0" layoutY="121.0" mnemonicParsing="false" text="Button" />
-                        <Button layoutX="76.0" layoutY="157.0" mnemonicParsing="false" text="Button" />
+                        <Button layoutX="75.0" layoutY="42.0" mnemonicParsing="false" text="MY DRIVE" />
+                        <Button layoutX="75.0" layoutY="81.0" mnemonicParsing="false" text="Shared " />
+                        <Button layoutX="77.0" layoutY="193.0" mnemonicParsing="false" text="Computer" />
+                        <Button layoutX="77.0" layoutY="121.0" mnemonicParsing="false" text="Recent" />
+                        <Button layoutX="76.0" layoutY="157.0" mnemonicParsing="false" text="More" />
 
                      </children>
                   </Pane>
-                  <Label text="Storage Details" textFill="WHITE">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                     <Label textFill="WHITE" />
+
                </children>
             </VBox>
          </left>
