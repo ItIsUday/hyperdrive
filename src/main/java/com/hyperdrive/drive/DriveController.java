@@ -9,10 +9,11 @@ import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.FileContent;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
+import com.google.api.services.drive.model.About;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import com.hyperdrive.utils.Constants;
@@ -24,15 +25,15 @@ import java.util.Collections;
 import java.util.List;
 
 public class DriveController {
-    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+    private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
-
     /**
      * Global instance of the scopes required by this quickstart.
      * If modifying these scopes, delete your previously saved tokens/ folder.
      */
     private static final List<String> SCOPES = Collections.singletonList(DriveScopes.DRIVE);
     private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
+    public static String USER_EMAIL;
 
     /**
      * Creates an authorized Credential object.
@@ -84,18 +85,18 @@ public class DriveController {
         System.out.println("File ID: " + file.getId());
     }
 
-    public static void main(String... args) throws IOException, GeneralSecurityException {
+    public static List<File> connect(String... args) throws IOException, GeneralSecurityException {
         // Build a new authorized API client service.
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         Drive service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                 .setApplicationName(Constants.APPLICATION_NAME)
                 .build();
 
-        // Print the names and IDs for up to 10 files.
-        FileList result = service.files().list()
-                .setPageSize(10)
-                .setFields("nextPageToken, files(id, name)")
-                .execute();
+        About about = service.about().get().setFields("*").execute();
+        USER_EMAIL = about.getUser().getEmailAddress();
+        FileList result = service.files().list().setPageSize(10).setFields("*").execute();
+
+
         List<File> files = result.getFiles();
         if (files == null || files.isEmpty()) {
             System.out.println("No files found.");
@@ -105,5 +106,7 @@ public class DriveController {
                 System.out.printf("%s (%s)\n", file.getName(), file.getId());
             }
         }
+
+        return files;
     }
 }
