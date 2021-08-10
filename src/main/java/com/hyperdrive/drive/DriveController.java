@@ -60,17 +60,18 @@ public class DriveController {
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 
-    public static void downloadFile(String fileID, String filePath) throws IOException, GeneralSecurityException {
+    public static void downloadFile(String fileID) throws IOException, GeneralSecurityException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         Drive service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                 .setApplicationName(Constants.APPLICATION_NAME)
                 .build();
 
-        FileOutputStream outputStream = new FileOutputStream(filePath);
+        OutputStream outputStream = new ByteArrayOutputStream();
         service.files().get(fileID).executeMediaAndDownloadTo(outputStream);
     }
 
-    public static void uploadFile(java.io.File f) throws IOException, GeneralSecurityException {
+
+        public static void uploadFile(java.io.File f) throws IOException, GeneralSecurityException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         Drive service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                 .setApplicationName(Constants.APPLICATION_NAME)

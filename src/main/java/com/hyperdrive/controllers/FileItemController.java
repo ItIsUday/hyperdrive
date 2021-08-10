@@ -9,8 +9,10 @@ import com.google.api.services.drive.model.File;
 import com.hyperdrive.drive.DriveController;
 import com.hyperdrive.utils.Constants;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -49,15 +51,17 @@ public class FileItemController implements Initializable {
             case Constants.PPT_TYPE -> imageThumbnail.setImage(new Image(getClass().getResourceAsStream(Constants.PPT_ICON)));
             case Constants.JAR_TYPE -> imageThumbnail.setImage(new Image(getClass().getResourceAsStream(Constants.JAVA_ICON)));
         }
+
+
     }
 
     @FXML
-    private void downloadFile(ActionEvent event) {
-        System.out.println(labelName.getText());
+    public void downloadFile(ActionEvent event) {
         try {
-            DriveController.downloadFile(this.file.getId(), this.file.getMimeType());
+            DriveController.downloadFile(this.file.getId());
         } catch (IOException | GeneralSecurityException ex) {
             Logger.getLogger(FileItemController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
 }

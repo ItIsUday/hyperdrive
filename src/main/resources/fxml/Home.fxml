@@ -1,67 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
-<?import javafx.scene.text.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity"
-            prefHeight="1000.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.2"
-            fx:controller="com.hyperdrive.controllers.HomeController">
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hyperdrive.controllers.HomeController">
     <children>
         <BorderPane prefHeight="650.0" prefWidth="1000.0">
             <center>
                 <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                     <top>
-                        <Pane prefHeight="250.0" prefWidth="750.0" BorderPane.alignment="CENTER">
+                        <Pane prefHeight="137.0" prefWidth="750.0" BorderPane.alignment="CENTER">
                             <children>
                                 <Label layoutX="36.0" layoutY="14.0" text="My Drive" textFill="#8d8d8d">
                                     <font>
-                                        <Font size="38.0"/>
-                                    </font>
-                                </Label>
-                                <Label layoutX="14.0" layoutY="85.0" text="QUICK ACCESS" textFill="#8d8d8d">
-                                    <font>
-                                        <Font name="Segoe UI Bold" size="16.0"/>
+                                        <Font size="38.0" />
                                     </font>
                                 </Label>
                             </children>
                         </Pane>
                     </top>
-                    <left>
-                        <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                            <children>
-                                <Label layoutX="61.0" layoutY="18.0" text="ALL FILES" textFill="#8d8d8d">
-                                    <font>
-                                        <Font name="Segoe UI Bold" size="16.0"/>
-                                    </font>
-                                </Label>
-                                <VBox layoutX="14.0" layoutY="50.0" prefHeight="270.0" prefWidth="725.0">
-                                    <children>
-                                        <ScrollPane prefHeight="270.0" prefWidth="725.0"/>
-                                    </children>
-                                </VBox>
-                            </children>
-                        </Pane>
-                    </left>
-                    <center>
-                        <VBox fx:id="vbFiles" prefHeight="278.0" prefWidth="709.0" BorderPane.alignment="CENTER"/>
-                    </center>
+               <center>
+                  <ScrollPane fx:id="vb" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+               </center>
                 </BorderPane>
             </center>
             <left>
-                <VBox alignment="TOP_CENTER" prefHeight="540.0" prefWidth="250.0" spacing="10.0"
-                      style="-fx-background-color: #1E61CD; -fx-background-radius: 0 60 0 0;"
-                      BorderPane.alignment="CENTER">
+                <VBox alignment="TOP_CENTER" prefHeight="540.0" prefWidth="250.0" spacing="10.0" style="-fx-background-color: #1E61CD; -fx-background-radius: 0 60 0 0;" BorderPane.alignment="CENTER">
                     <children>
                         <Pane prefHeight="85.0" prefWidth="250.0">
                             <children>
-                                <Button layoutX="24.0" layoutY="19.0" mnemonicParsing="false" onAction="#uploadFile"
-                                        prefHeight="59.0" prefWidth="178.0" text="Upload">
+                                <Button layoutX="24.0" layoutY="19.0" mnemonicParsing="false" onAction="#uploadFile" prefHeight="59.0" prefWidth="178.0" text="Upload File">
                                     <font>
-                                        <Font name="System Font" size="20.0"/>
+                                        <Font name="System Font" size="20.0" />
                                     </font>
                                 </Button>
                             </children>
@@ -69,20 +52,16 @@
 
                         <Separator opacity="0.3" prefWidth="200.0">
                             <VBox.margin>
-                                <Insets/>
+                                <Insets />
                             </VBox.margin>
                         </Separator>
                         <Pane prefHeight="297.0" prefWidth="250.0">
                             <children>
-                                <Button layoutX="75.0" layoutY="42.0" mnemonicParsing="false" text="MY DRIVE"/>
-                                <Button layoutX="75.0" layoutY="81.0" mnemonicParsing="false" prefHeight="26.0"
-                                        prefWidth="76.0" text="Shared "/>
-                                <Button layoutX="77.0" layoutY="159.0" mnemonicParsing="false" text="Computer"/>
-                                <Button layoutX="77.0" layoutY="121.0" mnemonicParsing="false" prefHeight="26.0"
-                                        prefWidth="72.0" text="Recent"/>
-                                <Button layoutX="81.0" layoutY="194.0" mnemonicParsing="false" prefHeight="26.0"
-                                        prefWidth="65.0" text="More"/>
-
+                                <Button layoutX="75.0" layoutY="42.0" mnemonicParsing="false"  onAction="#Reload" text="MY DRIVE" />
+                                <Button layoutX="75.0" layoutY="81.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="76.0" text="Shared " />
+                                <Button layoutX="77.0" layoutY="159.0" mnemonicParsing="false" text="Computer" />
+                                <Button layoutX="77.0" layoutY="121.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="72.0" text="Recent" />
+                                <Button layoutX="81.0" layoutY="194.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="65.0" text="More" />
                             </children>
                         </Pane>
 
@@ -90,35 +69,32 @@
                 </VBox>
             </left>
             <top>
-                <HBox alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="1000.0" spacing="15.0"
-                      BorderPane.alignment="CENTER">
+                <HBox alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="1000.0" spacing="15.0" BorderPane.alignment="CENTER">
                     <children>
-                        <Pane prefHeight="70.0" prefWidth="20.0"/>
+                        <Pane prefHeight="70.0" prefWidth="20.0" />
                         <Label text="HyperDrive">
                             <textFill>
                                 <LinearGradient endX="1.0" endY="1.0">
                                     <stops>
-                                        <Stop color="#4caf50"/>
-                                        <Stop color="#ffc107" offset="0.3677370936524864"/>
-                                        <Stop color="#1976d2" offset="1.0"/>
+                                        <Stop color="#4caf50" />
+                                        <Stop color="#ffc107" offset="0.3677370936524864" />
+                                        <Stop color="#1976d2" offset="1.0" />
                                     </stops>
                                 </LinearGradient>
                             </textFill>
                             <font>
-                                <Font size="32.0"/>
+                                <Font size="32.0" />
                             </font>
                         </Label>
-                        <TextField prefHeight="30.0" prefWidth="290.0" promptText="Search in Drive"
-                                   styleClass="text-input">
+                        <TextField prefHeight="30.0" prefWidth="317.0" promptText="Search in Drive" styleClass="text-input">
                             <HBox.margin>
-                                <Insets left="50.0"/>
+                                <Insets left="50.0" />
                             </HBox.margin>
                         </TextField>
 
-                        <Label fx:id="labelEmail" prefHeight="17.0" prefWidth="153.0" text="somebody@gmail.com"
-                               textFill="#b4b0bd">
+                        <Label fx:id="labelEmail" alignment="BOTTOM_RIGHT" prefHeight="17.0" prefWidth="153.0" text="somebody@gmail.com" textFill="#b4b0bd">
                             <tooltip>
-                                <Tooltip text="Email Account"/>
+                                <Tooltip text="Email Account" />
                             </tooltip>
                         </Label>
                     </children>

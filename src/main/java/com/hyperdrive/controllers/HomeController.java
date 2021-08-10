@@ -9,9 +9,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.ScrollPane;
+
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.event.EventHandler;
 
 import java.io.IOException;
 import java.net.URL;
@@ -21,31 +23,38 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javafx.scene.layout.FlowPane;
+import javafx.scene.control.Button;
+
+
+
 public class HomeController implements Initializable {
 
     @FXML
     private Label labelEmail;
 
     @FXML
-    private VBox vbFiles;
-
+    private ScrollPane vb;
+    final FlowPane container = new FlowPane();
+    private File file=new File();
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
             List<File> files = DriveController.connect();
             labelEmail.setText(DriveController.USER_EMAIL);
             Node[] nodes = new Node[files.size()];
-            for (int i = 0; i < nodes.length; i++) {
+            for (int i = 0; i <10; i++) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource(Constants.FXML_FILE_ITEM));
                 FileItemController controller = new FileItemController();
                 loader.setController(controller);
                 nodes[i] = loader.load();
-                vbFiles.getChildren().add(nodes[i]);
+                container.getChildren().add(nodes[i]);
                 controller.setFile(files.get(i));
             }
         } catch (IOException | GeneralSecurityException ex) {
             Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        vb.setContent(container);
     }
 
     @FXML
@@ -62,5 +71,10 @@ public class HomeController implements Initializable {
         } catch (IOException | GeneralSecurityException ex) {
             Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+   @FXML
+     private void Reload(ActionEvent event){
+    System.out.println("Hello");
     }
 }
