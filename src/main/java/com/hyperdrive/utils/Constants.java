@@ -5,6 +5,7 @@ public class Constants {
     public static final String APPLICATION_NAME = "Google Drive API JavaFX Client";
     public static final String APP_TITLE = "HyperDrive";
     public static final String FXML_FILE_ITEM = "/fxml/FileItem.fxml";
+    public static final String DOWNLOAD_PATH = "/home/kira/Downloads/Drive-Downloads/";
 
     // Mime Types
     public static final String PDF_TYPE = "application/pdf";

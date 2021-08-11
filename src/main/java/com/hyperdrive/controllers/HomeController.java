@@ -9,7 +9,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.FlowPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -23,11 +25,16 @@ import java.util.logging.Logger;
 
 public class HomeController implements Initializable {
 
+    final FlowPane container = new FlowPane();
+
     @FXML
     private Label labelEmail;
 
     @FXML
-    private VBox vbFiles;
+    private ScrollPane vbFiles;
+
+    @FXML
+    private TextField searchField;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -40,12 +47,32 @@ public class HomeController implements Initializable {
                 FileItemController controller = new FileItemController();
                 loader.setController(controller);
                 nodes[i] = loader.load();
-                vbFiles.getChildren().add(nodes[i]);
+                container.getChildren().add(nodes[i]);
                 controller.setFile(files.get(i));
             }
         } catch (IOException | GeneralSecurityException ex) {
             Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        vbFiles.setContent(container);
+    }
+
+    @FXML
+    private void searchFile(ActionEvent event) {
+        try {
+            List<File> files = DriveController.searchFile(searchField.getText());
+            Node[] nodes = new Node[files.size()];
+            for (int i = 0; i < nodes.length; i++) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(Constants.FXML_FILE_ITEM));
+                FileItemController controller = new FileItemController();
+                loader.setController(controller);
+                nodes[i] = loader.load();
+                container.getChildren().add(nodes[i]);
+                controller.setFile(files.get(i));
+            }
+        } catch (IOException | GeneralSecurityException ex) {
+            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        vbFiles.setContent(container);
     }
 
     @FXML
