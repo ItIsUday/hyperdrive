@@ -21,6 +21,7 @@ import com.hyperdrive.utils.Constants;
 import java.io.*;
 import java.net.URLConnection;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -83,6 +84,32 @@ public class DriveController {
         FileContent mediaContent = new FileContent(URLConnection.guessContentTypeFromName(f.getName()), f);
         File file = service.files().create(body, mediaContent).execute();
         System.out.println("File ID: " + file.getId());
+    }
+
+    public static List<File> searchFile(String fileName) throws GeneralSecurityException, IOException {
+        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        Drive service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+                .setApplicationName(Constants.APPLICATION_NAME)
+                .build();
+
+        String pageToken = null;
+        List<File> files = new ArrayList<>();
+        do {
+            FileList result = service.files().list()
+                    .setQ("name=" + "'" + fileName + "'")
+                    .setSpaces("drive")
+                    .setFields("nextPageToken, files(id, name)")
+                    .setPageToken(pageToken)
+                    .execute();
+            files.addAll(result.getFiles());
+            for (File file : result.getFiles()) {
+                System.out.printf("Found file: %s (%s)\n",
+                        file.getName(), file.getId());
+            }
+            pageToken = result.getNextPageToken();
+        } while (pageToken != null);
+
+        return files;
     }
 
     public static List<File> connect(String... args) throws IOException, GeneralSecurityException {
