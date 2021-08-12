@@ -38,6 +38,10 @@ public class HomeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        getFiles();
+    }
+
+    private void getFiles() {
         try {
             List<File> files = DriveController.connect();
             labelEmail.setText(DriveController.USER_EMAIL);
@@ -58,6 +62,7 @@ public class HomeController implements Initializable {
 
     @FXML
     private void searchFile(ActionEvent event) {
+        container.getChildren().clear();
         try {
             List<File> files = DriveController.searchFile(searchField.getText());
             Node[] nodes = new Node[files.size()];
@@ -77,7 +82,6 @@ public class HomeController implements Initializable {
 
     @FXML
     private void uploadFile(ActionEvent event) {
-        System.out.println("Hello");
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Upload File to Google Drive");
         Node node = (Node) event.getSource();
@@ -89,5 +93,11 @@ public class HomeController implements Initializable {
         } catch (IOException | GeneralSecurityException ex) {
             Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @FXML
+    private void refresh(ActionEvent event) {
+        container.getChildren().clear();
+        getFiles();
     }
 }
