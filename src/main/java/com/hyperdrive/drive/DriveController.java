@@ -96,9 +96,9 @@ public class DriveController {
         List<File> files = new ArrayList<>();
         do {
             FileList result = service.files().list()
-                    .setQ("name=" + "'" + fileName + "'")
+                    .setQ("name contains " + "'" + fileName + "'")
                     .setSpaces("drive")
-                    .setFields("nextPageToken, files(id, name)")
+                    .setFields("nextPageToken, files(id, name, mimeType)")
                     .setPageToken(pageToken)
                     .execute();
             files.addAll(result.getFiles());
@@ -130,7 +130,7 @@ public class DriveController {
 
         About about = service.about().get().setFields("*").execute();
         USER_EMAIL = about.getUser().getEmailAddress();
-        FileList result = service.files().list().setPageSize(10).setFields("*").execute();
+        FileList result = service.files().list().setFields("*").execute();
 
 
         List<File> files = result.getFiles();
