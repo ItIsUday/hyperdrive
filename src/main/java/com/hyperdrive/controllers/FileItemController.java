@@ -36,12 +36,18 @@ public class FileItemController implements Initializable {
     @FXML
     private Button download;
 
+    @FXML
+    private Button delete;
+
     private File file;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        EventHandler<ActionEvent> event = this::downloadFile;
-        download.setOnAction(event);
+        EventHandler<ActionEvent> downloadEvent = this::downloadFile;
+        download.setOnAction(downloadEvent);
+
+        EventHandler<ActionEvent> deleteEvent = this::deleteFile;
+        delete.setOnAction(deleteEvent);
     }
 
     public void setFile(File f) {
@@ -60,10 +66,21 @@ public class FileItemController implements Initializable {
 
     @FXML
     private void downloadFile(ActionEvent event) {
-        System.out.println(labelName.getText());
+        System.out.println("Downloading... " + labelName.getText());
         try {
             DriveController.downloadFile(this.file.getId(), Constants.DOWNLOAD_PATH + this.file.getName());
+            System.out.println("Downloaded successfully");
         } catch (IOException | GeneralSecurityException ex) {
+            Logger.getLogger(FileItemController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void deleteFile(ActionEvent actionEvent) {
+        System.out.println("Deleting... " + labelName.getText());
+        try {
+            DriveController.deleteFile(this.file.getId());
+            System.out.println("Deleted successfully");
+        } catch (GeneralSecurityException | IOException ex) {
             Logger.getLogger(FileItemController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

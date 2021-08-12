@@ -112,6 +112,15 @@ public class DriveController {
         return files;
     }
 
+    public static void deleteFile(String fileID) throws IOException, GeneralSecurityException {
+        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        Drive service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+                .setApplicationName(Constants.APPLICATION_NAME)
+                .build();
+
+        service.files().delete(fileID).execute();
+    }
+
     public static List<File> connect(String... args) throws IOException, GeneralSecurityException {
         // Build a new authorized API client service.
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();

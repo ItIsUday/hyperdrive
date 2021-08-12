@@ -11,6 +11,13 @@ targetCompatibility = 16
 group 'com.hyperdrive'
 version '1.0-SNAPSHOT'
 
+if (hasProperty('buildScan')) {
+    buildScan {
+        termsOfServiceUrl = 'https://gradle.com/terms-of-service'
+        termsOfServiceAgree = 'yes'
+    }
+}
+
 repositories {
     mavenCentral()
 }
