@@ -12,10 +12,13 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -66,9 +69,23 @@ public class FileItemController implements Initializable {
 
     @FXML
     private void downloadFile(ActionEvent event) {
+        DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setTitle("Save file");
+        java.io.File defaultDirectory = new java.io.File(System.getProperty("user.home"));
+        chooser.setInitialDirectory(defaultDirectory);
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+        java.io.File selectedDirectory = chooser.showDialog(stage);
+
+        if (selectedDirectory == null) {
+            System.out.println("Download canceled");
+            return;
+        }
+
+        java.io.File path = new java.io.File(selectedDirectory, this.file.getName());
         System.out.println("Downloading... " + labelName.getText());
         try {
-            DriveController.downloadFile(this.file.getId(), Constants.DOWNLOAD_PATH + this.file.getName());
+            DriveController.downloadFile(this.file.getId(), path.getPath());
             System.out.println("Downloaded successfully");
         } catch (IOException | GeneralSecurityException ex) {
             Logger.getLogger(FileItemController.class.getName()).log(Level.SEVERE, null, ex);
